@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container p-5 m-auto w-50">
+    <form method="POST">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="id_user">User</label>
+            <select disabled class="custom-select" id="id_user" name="user_id">
+                <option value="-">Select User</option>
+                {% for user in users %}
+                {% if user.id == user_role.user_id %}
+                <option selected value="{{ user.id }}">{{ user.username }}</option>
+                {% else %}
+                <option value="{{ user.id }}">{{ user.username }}</option>
+                {% endif %}
+                {% endfor %}
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="id_role">Role</label>
+            <select class="custom-select" id="id_role" name="role_id">
+                <option value="-">Select Role</option>
+                {% for role in roles %}
+                {% if role.id == user_role.role_id %}
+                <option selected value="{{ role.id }}">{{ role.name }}</option>
+                {% else %}
+                <option value="{{ role.id }}">{{ role.name }}</option>
+                {% endif %}
+                {% endfor %}
+            </select>
+        </div>
+        <a href="{{ request.META.HTTP_REFERER }}">
+            <button type="button" class="btn btn-dark">Cancel</button>
+        </a>
+        <button type="submit" class="btn btn-dark">Save</button>
+    </form>
+</div>
+{% endblock %}
