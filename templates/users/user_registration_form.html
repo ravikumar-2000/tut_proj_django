@@ -54,7 +54,8 @@
         </div>
         <div class="form-group">
             <label for="id_user_email">Email address</label>
-            <input required type="email" class="form-control" id="id_user_email" name="email" value="{{ current_user.email }}">
+            <input required type="email" class="form-control" id="id_user_email" name="email"
+                value="{{ current_user.email }}">
         </div>
         {% if not current_user %}
         <div class="form-group">
@@ -67,6 +68,38 @@
             <input required type="password" class="form-control" id="id_user_password_confirmation" name="password2">
         </div>
         {% endif %}
+
+        <div class="form-group">
+
+            <div style="display: inline-block; border: 4px dashed black; padding: 10px;">
+                <label for="id_active">Is Active</label>
+                <div class="custom-control custom-switch">
+                    <input type="checkbox" {% if current_user.is_active %} checked {% endif %}
+                        class="custom-control-input" id="id_is_active" name="is_active">
+                    <label class="custom-control-label" for="id_is_active">Active</label>
+                </div>
+            </div>
+
+            <div style="display: inline-block; border: 4px dashed black; padding: 10px;">
+                <label for="id_superuser">Is SuperUser</label>
+                <div class="custom-control custom-switch">
+                    <input type="checkbox" {% if current_user.is_superuser %} checked {% endif %}
+                        class="custom-control-input" id="id_is_superuser" name="is_superuser">
+                    <label class="custom-control-label" for="id_is_superuser">Active</label>
+                </div>
+            </div>
+
+            <div style="display: inline-block; border: 4px dashed black; padding: 10px;">
+                <label for="id_staff">Is Staff</label>
+                <div class="custom-control custom-switch">
+                    <input type="checkbox" {% if current_user.is_staff %} checked {% endif %} class="custom-control-input"
+                        id="id_is_staff" name="is_staff">
+                    <label class="custom-control-label" for="id_is_staff">Active</label>
+                </div>
+            </div>
+
+        </div>
+
         <a href="{{ request.META.HTTP_REFERER }}">
             <button type="button" class="btn btn-dark">Cancel</button>
         </a>
