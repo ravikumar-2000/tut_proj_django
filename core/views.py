@@ -37,6 +37,9 @@ def registerUser(request):
                 username=request.POST.get("username"),
                 email=request.POST.get("email"),
                 password=request.POST.get("password"),
+                is_active=True if request.POST.get("is_active") == 'on' else False,
+                is_staff=True if request.POST.get("is_staff") == 'on' else False,
+                is_superuser=True if request.POST.get("is_superuser") == 'on' else False,
             )
             user_role = UserRole()
             user_role.user = user
@@ -44,7 +47,6 @@ def registerUser(request):
             user_role.save()
             return redirect("core.manage_users")
         else:
-            print(request.POST)
             messages.error(request, message="something went wrong!")
             return redirect("core.register_user")
     context["form"] = UserCreationForm()
@@ -91,18 +93,23 @@ def updateUser(request, pk):
     context = {}
     current_user = User.objects.get(id=pk)
     current_user_role = UserRole.objects.get(user=current_user)
-    print(current_user_role.role_id)
     context["user_role"] = current_user_role
     context["roles"] = Role.objects.all()
     context["current_user"] = current_user
     context["button_name"] = "Update User"
+
     if request.method == "POST" and request.POST.get("user_role") != "-":
+
         current_user.first_name = request.POST.get("first_name")
         current_user.last_name = request.POST.get("last_name")
         current_user.username = request.POST.get("username")
         current_user.email = request.POST.get("email")
-        current_user_role.role = Role.objects.get(id=request.POST.get("user_role"))
+        current_user.is_active = True if request.POST.get("is_active") == 'on' else False
+        current_user.is_staff = True if  request.POST.get("is_staff") == 'on' else False
+        current_user.is_superuser = True if request.POST.get("is_superuser") == 'on' else False
         current_user.save()
+
+        current_user_role.role = Role.objects.get(id=request.POST.get("user_role"))
         current_user_role.save()
         return redirect("core.manage_users")
     return render(
