@@ -1,14 +1,17 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from django.http import HttpResponse
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, Permission
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm
+from django.contrib.contenttypes.models import ContentType
+from django.core.paginator import Paginator
 from .models import Role, UserRole
 from .forms import RoleForm
 
 
+@login_required
 def index(request):
     context = {}
     return render(request=request, template_name="base.html", context=context)
@@ -37,9 +40,11 @@ def registerUser(request):
                 username=request.POST.get("username"),
                 email=request.POST.get("email"),
                 password=request.POST.get("password"),
-                is_active=True if request.POST.get("is_active") == 'on' else False,
-                is_staff=True if request.POST.get("is_staff") == 'on' else False,
-                is_superuser=True if request.POST.get("is_superuser") == 'on' else False,
+                is_active=True if request.POST.get("is_active") == "on" else False,
+                is_staff=True if request.POST.get("is_staff") == "on" else False,
+                is_superuser=True
+                if request.POST.get("is_superuser") == "on"
+                else False,
             )
             user_role = UserRole()
             user_role.user = user
@@ -104,9 +109,13 @@ def updateUser(request, pk):
         current_user.last_name = request.POST.get("last_name")
         current_user.username = request.POST.get("username")
         current_user.email = request.POST.get("email")
-        current_user.is_active = True if request.POST.get("is_active") == 'on' else False
-        current_user.is_staff = True if  request.POST.get("is_staff") == 'on' else False
-        current_user.is_superuser = True if request.POST.get("is_superuser") == 'on' else False
+        current_user.is_active = (
+            True if request.POST.get("is_active") == "on" else False
+        )
+        current_user.is_staff = True if request.POST.get("is_staff") == "on" else False
+        current_user.is_superuser = (
+            True if request.POST.get("is_superuser") == "on" else False
+        )
         current_user.save()
 
         current_user_role.role = Role.objects.get(id=request.POST.get("user_role"))
@@ -225,3 +234,60 @@ def deleteUserRole(request, pk):
     if user_role:
         user_role.delete()
         return redirect("core.manage_user_role")
+
+
+def getPermissions(request):
+    context = {}
+    users = User.objects.all()
+    paginator = Paginator(users, 3)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number) 
+    context["users"] = page_obj
+    return render(
+        request=request, template_name="user_permissions/user_permissions_index.html", context=context
+    )
+
+
+def assignPermissions(request):
+    context = {}
+    query_model = request.GET.get("user_permission_model")
+    query_user = request.GET.get('user_id')
+    if query_user:
+        context['user_id'] = int(query_user)
+    if query_model and query_user != '-' and query_model != "-":
+        current_user = User.objects.get(id=query_user)
+        permissions = Permission.objects.filter(content_type_id=query_model).all()
+        context["content_type_id"] = int(query_model)
+        context["permissions"] = permissions
+    if request.method == "POST":
+        for permission in permissions:
+            active = int(request.POST.get(permission.codename))
+            if current_user.has_perm(permission.content_type.app_label + '.' + permission.codename):
+                if active:
+                    continue
+                else:
+                    current_user.user_permissions.remove(permission)
+            else:
+                if active:
+                    current_user.user_permissions.add(permission)
+        return redirect("core.get_permissions")
+    context['users'] = User.objects.all()
+    context["content_types"] = ContentType.objects.all()
+    return render(
+        request=request,
+        template_name="user_permissions/user_assign_permissions.html",
+        context=context,
+    )
+
+
+def updatePermissions(request, pk):
+    current_user = User.objects.get(id=pk)
+    return redirect(f'/user-assign-permissions/?user_id={current_user.id}')
+
+
+def deletePermissions(request, pk):
+    current_user = User.objects.get(id=pk)
+    permissions = Permission.objects.filter(user=current_user).all()
+    for permission in permissions:
+        current_user.user_permissions.remove(permission)
+    return redirect('core.get_permissions')

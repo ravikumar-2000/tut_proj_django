@@ -1,31 +1,75 @@
-{% extends 'base.html' %}
+{% load static %}
 
-{% block content %}
+<!doctype html>
+<html lang="en">
 
-<div class="container p-5 m-auto w-50">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    {% for message in messages %}
-    <div class="alert alert-danger">
-        <a class="close" href="#" data-dismiss="alert">×</a>
-        {{ message }}
+    <link rel="stylesheet" href="{% static 'css/base.css' %}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css"
+        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+    <title>Tut App</title>
+
+    <style>
+        body {
+            background-color: whitesmoke;
+        }
+
+        #main-name {
+            font-weight: bolder;
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            color: whitesmoke;
+            background-color: black;
+            width: fit-content;
+            padding: 5px;
+            margin: 3px;
+        }
+    </style>
+
+
+</head>
+
+<body>
+
+    <div class="container p-5 w-50">
+
+        {% for message in messages %}
+        <div class="alert alert-danger">
+            <a class="close" href="#" data-dismiss="alert">×</a>
+            {{ message }}
+        </div>
+        {% endfor %}
+
+        <form method="POST">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="id_email">Email address</label>
+                <input required type="email" class="form-control" id="id_email" name="user_email">
+            </div>
+            <div class="form-group">
+                <label for="id_password">Password</label>
+                <input required type="password" class="form-control" id="id_password" name="user_password">
+            </div>
+            <a href="{{ request.META.HTTP_REFERER }}">
+                <button type="button" class="btn btn-dark">Cancel</button>
+            </a>
+            <button type="submit" class="btn btn-dark">Login User</button>
+        </form>
     </div>
-    {% endfor %}
 
-    <form method="POST">
-        {% csrf_token %}
-        <div class="form-group">
-            <label for="id_email">Email address</label>
-            <input required type="email" class="form-control" id="id_email" name="user_email">
-        </div>
-        <div class="form-group">
-            <label for="id_password">Password</label>
-            <input required type="password" class="form-control" id="id_password" name="user_password">
-        </div>
-        <a href="{{ request.META.HTTP_REFERER }}">
-            <button type="button" class="btn btn-dark">Cancel</button>
-        </a>
-        <button type="submit" class="btn btn-dark">Login User</button>
-    </form>
-</div>
 
-{% endblock %}
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+        integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/js/bootstrap.min.js"
+        integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>

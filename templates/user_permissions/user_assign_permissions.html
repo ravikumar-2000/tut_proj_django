@@ -1,0 +1,82 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="container p-5 m-auto w-50">
+    <form method="GET">
+
+        <div class="form-group">
+            <label for="id_user">User</label>
+            {% if not user_id %}
+            <select class="custom-select" id="id_user" name="user_id">
+                <option selected value="-">Select User</option>
+                {% for user in users %}
+                <option value="{{ user.id }}">{{ user.username }}</option>
+                {% endfor %}
+            </select>
+            {% else %}
+            <select class="custom-select" id="id_user" name="user_id">
+                <option value="-">Select User</option>
+                {% for user in users %}
+                {% if user.id == user_id %}
+                <option selected value="{{ user.id }}">{{ user.username }}</option>
+                {% else %}
+                <option value="{{ user.id }}">{{ user.username }}</option>
+                {% endif %}
+                {% endfor %}
+            </select>
+            {% endif %}
+        </div>
+
+        <div class="form-group">
+            <label for="id_permission">User Permission Model</label>
+            {% if not permissions %}
+            <select class="custom-select" id="id_permission" name="user_permission_model">
+                <option selected value="-">Select Permission Model</option>
+                {% for content_type in content_types %}
+                <option value="{{ content_type.id }}">{{ content_type.name }}</option>
+                {% endfor %}
+            </select>
+            {% else %}
+            <select class="custom-select" id="id_permission" name="user_permission_model">
+                <option value="-">Select Permission Model</option>
+                {% for content_type in content_types %}
+                {% if content_type.id == content_type_id %}
+                <option selected value="{{ content_type.id }}">{{ content_type.name }}</option>
+                {% else %}
+                <option value="{{ content_type.id }}">{{ content_type.name }}</option>
+                {% endif %}
+                {% endfor %}
+            </select>
+            {% endif %}
+        </div>
+        <a href="{{ request.META.HTTP_REFERER }}">
+            <button type="button" class="btn btn-dark">Cancel</button>
+        </a>
+        <button type="submit" class="btn btn-dark">Save</button>
+    </form>
+
+</div>
+
+{% if permissions %}
+<div class="container p-5 m-auto w-50">
+    <form method="POST">
+        {% csrf_token %}
+        <div class="form-group">
+            {% for permission in permissions %}
+            <label for="id_{{ permission.codename }}">{{ permission.name }}</label>
+            <select class="custom-select" id="id_{{ permission.codename }}" name="{{ permission.codename }}">
+                <option selected value="1">YES</option>
+                <option value="0">NO</option>
+            </select>
+            {% endfor %}
+        </div>
+        <a href="{{ request.META.HTTP_REFERER }}">
+            <button type="button" class="btn btn-dark">Cancel</button>
+        </a>
+        <button type="submit" class="btn btn-dark">Save</button>
+    </form>
+</div>
+{% endif %}
+
+{% endblock content %}
