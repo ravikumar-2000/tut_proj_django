@@ -4,8 +4,12 @@
 
 <div class="container p-5 m-auto">
 
-    <form method="GET" action="{% url 'core.assign_permissions' %}">
-        <button type="submit" class="btn btn-dark mb-2">Assign Permissions</button>
+    <form method="GET" action="{% url 'core.assign_permissions' %}"></form>
+    {% if perms.core.add_permission %}
+    <button type="submit" class="btn btn-dark mb-2">Assign Permissions</button>
+    {% else %}
+    <button disabled type="submit" class="btn btn-dark mb-2">Assign Permissions</button>
+    {% endif %}
     </form>
 
     <table class="table">
@@ -29,18 +33,21 @@
                     {% endfor %}
                 </td>
                 <td>
+                    {% if perms.core.update_permission %}
                     <div style="display: inline-block;">
                         <form method="GET" action="{% url 'core.update_user_permissions' user.id %}">
                             <button type="submit" class="btn btn-success mb-2">Update</button>
                         </form>
                     </div>
-
+                    {% endif %}
+                    {% if perms.core.delete_permission %}
                     <div style="display: inline-block;">
                         <form method="GET" action="{% url 'core.delete_user_permissions' user.id %}">
                             <button type="submit" class="btn btn-danger mb-2"
                                 onclick="return confirm('Are you sure you want to delete this? Tnis will delete all the permissions associated with this user.')">Delete</button>
                         </form>
                     </div>
+                    {% endif %}
                 </td>
             </tr>
             {% endfor %}
@@ -50,17 +57,17 @@
     <div class="pagination">
         <span class="step-links">
             {% if users.has_previous %}
-                <a href="?page=1"><button class="btn btn-primary">first</button></a>
-                <a href="?page={{ users.previous_page_number }}"><button class="btn btn-primary">previous</button></a>
+            <a href="?page=1"><button class="btn btn-primary">first</button></a>
+            <a href="?page={{ users.previous_page_number }}"><button class="btn btn-primary">previous</button></a>
             {% endif %}
-    
+
             <span class="current">
                 Page {{ users.number }} of {{ users.paginator.num_pages }}.
             </span>
-    
+
             {% if users.has_next %}
-                <a href="?page={{ users.next_page_number }}"><button class="btn btn-primary">next</button></a>
-                <a href="?page={{ users.paginator.num_pages }}"><button class="btn btn-primary">last</button></a>
+            <a href="?page={{ users.next_page_number }}"><button class="btn btn-primary">next</button></a>
+            <a href="?page={{ users.paginator.num_pages }}"><button class="btn btn-primary">last</button></a>
             {% endif %}
         </span>
     </div>

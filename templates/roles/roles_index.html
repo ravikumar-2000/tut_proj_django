@@ -4,7 +4,7 @@
 
 <div class="container p-5 m-auto w-50">
     <form method="GET" action="{% url 'core.create_role' %}">
-        {% if not request.user.is_superuser %}
+        {% if not perms.core.add_role %}
         <button disabled type="submit" class="btn btn-dark mb-2">Create New Role</button>
         {% else %}
         <button type="submit" class="btn btn-dark mb-2">Create New Role</button>
@@ -26,22 +26,21 @@
                 <td>{{ role.name }}</td>
                 <td>{{ role.is_active }}</td>
                 <td>
-                    {% if request.user.is_superuser %}
+                    {% if perms.core.change_role %}
                     <div style="display: inline-block;">
                         <form method="GET" action="{% url 'core.update_role' role.id %}">
                             <button type="submit" class="btn btn-success mb-2">Update</button>
                         </form>
                     </div>
+                    {% endif %}
+                    {% if perms.core.delete_role %}
                     <div style="display: inline-block;">
                         <form method="GET" action="{% url 'core.delete_role' role.id %}">
                             <button type="submit" class="btn btn-danger mb-2"
                                 onclick="return confirm('Are you sure you want to delete this?')">Delete</button>
                         </form>
                     </div>
-                    {% else %}
-                    <span style="color: red; font-weight: bold;">Not Authorized!</span>
                     {% endif %}
-
                 </td>
             </tr>
             {% endfor %}

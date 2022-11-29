@@ -29,8 +29,8 @@
                 value="{{ current_user.username }}">
         </div>
         <div class="form-group">
-            <label for="id_user_role">Assign Role</label>
-            <select class="custom-select" id="id_user_role" name="user_role">
+            <label for="id_role">Assign Role</label>
+            <select class="custom-select" id="id_role" name="role">
 
                 {% if not current_user %}
                 <option selected value="-">Select Role</option>
@@ -42,7 +42,7 @@
                 <option value="-">Select Role</option>
                 {% for role in roles %}
 
-                {% if role.id == user_role.role_id %}
+                {% if role.id == current_user.role.id %}
                 <option selected value="{{ role.id }}">{{ role.name }}</option>
                 {% else %}
                 <option value="{{ role.id }}">{{ role.name }}</option>
@@ -60,12 +60,12 @@
         {% if not current_user %}
         <div class="form-group">
             <label for="id_user_password">Password</label>
-            <input required type="password" class="form-control" id="id_user_password" name="password1">
+            <input required type="password" class="form-control" id="id_user_password" name="password">
             <span style="color: green;">password should follow all the rules of a strong password</span>
         </div>
         <div class="form-group">
             <label for="id_user_password_confirmation">Confirm Password</label>
-            <input required type="password" class="form-control" id="id_user_password_confirmation" name="password2">
+            <input required type="password" class="form-control" id="id_user_password_confirmation" name="password_confirm">
         </div>
         {% endif %}
 

@@ -1,5 +1,5 @@
 from django.db import models
-from django.contrib.auth.models import User
+from django.contrib.auth.models import AbstractUser
 
 
 class BaseModel(models.Model):
@@ -15,6 +15,8 @@ class Role(BaseModel):
     is_active = models.BooleanField(null=False, default=True)
 
 
-class UserRole(BaseModel):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
-    role = models.ForeignKey(Role, on_delete=models.CASCADE)
+class User(AbstractUser, BaseModel):
+    role = models.ForeignKey(Role, on_delete=models.CASCADE, null=True)
+
+    class Meta(AbstractUser.Meta):
+        swappable = "AUTH_USER_MODEL"

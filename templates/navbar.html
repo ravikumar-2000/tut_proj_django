@@ -12,9 +12,11 @@
                 <a class="nav-link" href="{% url 'core.login_user' %}">User Login <span class="sr-only">(current)</span></a>
             </li>
             {% endif %}
+            {% if perms.core.add_user %}
             <li class="nav-item">
                 <a class="nav-link" href="{% url 'core.register_user' %}">User Registration</a>
             </li>
+            {% endif %}
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
                     aria-haspopup="true" aria-expanded="false">
@@ -23,7 +25,6 @@
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                     <a class="dropdown-item" href="{% url 'core.manage_roles' %}">Manage Roles</a>
                     <a class="dropdown-item" href="{% url 'core.manage_users' %}">Manage Users</a>
-                    <a class="dropdown-item" href="{% url 'core.manage_user_role' %}">Manage User Role</a>
                     <a class="dropdown-item" href="{% url 'core.get_permissions' %}">Manage User Permissions</a>
                     <div class="dropdown-divider"></div>
                     <a class="dropdown-item" href="#">No Action</a>

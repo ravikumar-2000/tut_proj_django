@@ -14,23 +14,20 @@ urlpatterns = [
     path("create-role/", views.createRole, name="core.create_role"),
     path("update-role/<str:pk>", views.updateRole, name="core.update_role"),
     path("delete-role/<str:pk>", views.deleteRole, name="core.delete_role"),
-    path("user-roles/", views.manageUserRole, name="core.manage_user_role"),
+    path("user-permissions/", views.getPermissions, name="core.get_permissions"),
     path(
-        "update-user-role/<str:pk>", views.updateUserRole, name="core.update_user_role"
+        "user-assign-permissions/",
+        views.assignPermissions,
+        name="core.assign_permissions",
     ),
     path(
-        "delete-user-role/<str:pk>", views.deleteUserRole, name="core.delete_user_role"
+        "update_user-permissions/<str:pk>",
+        views.updatePermissions,
+        name="core.update_user_permissions",
     ),
     path(
-        "user-permissions/", views.getPermissions, name="core.get_permissions"
-    ),
-    path(
-        "user-assign-permissions/", views.assignPermissions, name="core.assign_permissions"
-    ),
-    path(
-        "update_user-permissions/<str:pk>", views.updatePermissions, name="core.update_user_permissions"
-    ),
-    path(
-        "delete_user-permissions/<str:pk>", views.deletePermissions, name="core.delete_user_permissions"
+        "delete_user-permissions/<str:pk>",
+        views.deletePermissions,
+        name="core.delete_user_permissions",
     ),
 ]

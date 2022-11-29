@@ -84,7 +84,7 @@ DATABASES = {
     # },
     "default": {
         "ENGINE": "django.db.backends.mysql",
-        "NAME": "django-db",
+        "NAME": "django-tut-db",
         "USER": os.environ.get("MYSQLUSERNAME"),
         "PASSWORD": os.environ.get("MYSQLPASSWORD"),
         "HOST": "localhost",
@@ -139,3 +139,6 @@ STATICFILES_DIRS = [
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+
+AUTH_USER_MODEL = 'core.User'
