@@ -16,33 +16,33 @@
         <div class="form-group">
             <label for="id_user_first_name">First Name</label>
             <input required type="text" class="form-control" id="id_user_first_name" name="first_name"
-                value="{{ current_user.first_name }}">
+                value="{% if form.first_name.value %}{{ form.first_name.value }} {% endif %}">
         </div>
         <div class="form-group">
             <label for="id_user_last_name">Last Name</label>
             <input required type="text" class="form-control" id="id_user_last_name" name="last_name"
-                value="{{ current_user.last_name }}">
+                value="{% if form.last_name.value %}{{ form.last_name.value }} {% endif %}">
         </div>
         <div class="form-group">
             <label for="id_username">Username</label>
             <input required type="text" class="form-control" id="id_username" name="username"
-                value="{{ current_user.username }}">
+                value="{% if form.first_name.value %}{{ form.username.value }} {% endif %}">
         </div>
         <div class="form-group">
             <label for="id_role">Assign Role</label>
             <select class="custom-select" id="id_role" name="role">
 
-                {% if not current_user %}
-                <option selected value="-">Select Role</option>
+                {% if not form.role.value %}
+                <option selected value="0">Select Role</option>
                 {% for role in roles %}
                 <option value="{{ role.id }}">{{ role.name }}</option>
                 {% endfor %}
 
                 {% else %}
-                <option value="-">Select Role</option>
+                <option value="0">Select Role</option>
                 {% for role in roles %}
 
-                {% if role.id == current_user.role.id %}
+                {% if role.id == form.role.value %}
                 <option selected value="{{ role.id }}">{{ role.name }}</option>
                 {% else %}
                 <option value="{{ role.id }}">{{ role.name }}</option>
@@ -55,9 +55,14 @@
         <div class="form-group">
             <label for="id_user_email">Email address</label>
             <input required type="email" class="form-control" id="id_user_email" name="email"
-                value="{{ current_user.email }}">
+                value="{% if form.email.value %}{{ form.email.value }} {% endif %}">
         </div>
-        {% if not current_user %}
+        <div class="form-group">
+            <label for="id_user_expiry">Validity Expiry Date</label>
+            <input required type="date" class="form-control" id="id_user_expiry" name="validity_expiry_date"
+            value="{{ form.validity_expiry_date.value }}">
+        </div>
+        {% if not is_update %}
         <div class="form-group">
             <label for="id_user_password">Password</label>
             <input required type="password" class="form-control" id="id_user_password" name="password">
@@ -65,7 +70,8 @@
         </div>
         <div class="form-group">
             <label for="id_user_password_confirmation">Confirm Password</label>
-            <input required type="password" class="form-control" id="id_user_password_confirmation" name="password_confirm">
+            <input required type="password" class="form-control" id="id_user_password_confirmation"
+                name="password_confirm">
         </div>
         {% endif %}
 
@@ -74,7 +80,7 @@
             <div style="display: inline-block; border: 4px dashed black; padding: 10px;">
                 <label for="id_active">Is Active</label>
                 <div class="custom-control custom-switch">
-                    <input type="checkbox" {% if current_user.is_active %} checked {% endif %}
+                    <input type="checkbox" {% if form.is_active.value %} checked {% endif %}
                         class="custom-control-input" id="id_is_active" name="is_active">
                     <label class="custom-control-label" for="id_is_active">Active</label>
                 </div>
@@ -83,7 +89,7 @@
             <div style="display: inline-block; border: 4px dashed black; padding: 10px;">
                 <label for="id_superuser">Is SuperUser</label>
                 <div class="custom-control custom-switch">
-                    <input type="checkbox" {% if current_user.is_superuser %} checked {% endif %}
+                    <input type="checkbox" {% if form.is_superuser.value %} checked {% endif %}
                         class="custom-control-input" id="id_is_superuser" name="is_superuser">
                     <label class="custom-control-label" for="id_is_superuser">Active</label>
                 </div>
@@ -92,8 +98,8 @@
             <div style="display: inline-block; border: 4px dashed black; padding: 10px;">
                 <label for="id_staff">Is Staff</label>
                 <div class="custom-control custom-switch">
-                    <input type="checkbox" {% if current_user.is_staff %} checked {% endif %} class="custom-control-input"
-                        id="id_is_staff" name="is_staff">
+                    <input type="checkbox" {% if form.is_staff.value %} checked {% endif %}
+                        class="custom-control-input" id="id_is_staff" name="is_staff">
                     <label class="custom-control-label" for="id_is_staff">Active</label>
                 </div>
             </div>

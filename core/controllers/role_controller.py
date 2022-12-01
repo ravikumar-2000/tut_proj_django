@@ -23,6 +23,7 @@ def createRole(request):
             return redirect("core.manage_roles")
         else:
             messages.error(request, "something went wrong!")
+            context["form"] = new_role
             return render(
                 request=request,
                 template_name="roles/roles_create_update.html",

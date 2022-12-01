@@ -11,4 +11,8 @@ class RoleForm(forms.ModelForm):
 class RegistrationForm(forms.ModelForm):
     class Meta:
         model = User
-        fields = ["username", "password", "email", "role"]
+        fields = [
+            'username', 'first_name', 'last_name', 'email', 
+            'password', 'is_active', 'is_superuser', 'is_staff',
+            'role', 'validity_expiry_date'
+        ]

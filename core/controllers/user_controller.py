@@ -17,6 +17,7 @@ def manageUsers(request):
 def registerUser(request):
     context = {}
     context["roles"] = Role.objects.all()
+    context['is_update'] = 0
     context["button_name"] = "Register User"
     if request.method == "POST":
         new_user = RegistrationForm(request.POST)
@@ -29,6 +30,7 @@ def registerUser(request):
                 username=request.POST.get("username"),
                 email=request.POST.get("email"),
                 password=request.POST.get("password"),
+                validity_expiry_date=request.POST.get("validity_expiry_date"),
                 is_active=True if request.POST.get("is_active") == "on" else False,
                 is_staff=True if request.POST.get("is_staff") == "on" else False,
                 is_superuser=True
@@ -39,7 +41,12 @@ def registerUser(request):
             return redirect("core.manage_users")
         else:
             messages.error(request, message="something went wrong!")
-            return redirect("core.register_user")
+            context['form'] = new_user
+            return render(
+                request=request,
+                template_name="users/user_registration_form.html",
+                context=context,
+            )
     context["form"] = RegistrationForm()
     return render(
         request=request,
@@ -81,8 +88,9 @@ def logoutUser(request):
 def updateUser(request, pk):
     context = {}
     current_user = User.objects.get(id=pk)
+    context['form'] = RegistrationForm(instance=current_user)
+    context['is_update'] = 1
     context["roles"] = Role.objects.all()
-    context["current_user"] = current_user
     context["button_name"] = "Update User"
 
     if request.method == "POST" and request.POST.get("user_role") != "-":
@@ -99,6 +107,7 @@ def updateUser(request, pk):
             True if request.POST.get("is_superuser") == "on" else False
         )
         current_user.role = Role.objects.get(id=request.POST.get("role"))
+        current_user.validity_expiry_date = request.POST.get('validity_expiry_date')
         current_user.save()
         return redirect("core.manage_users")
     return render(
