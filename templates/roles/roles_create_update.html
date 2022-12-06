@@ -1,8 +1,10 @@
 {% extends 'base.html' %}
 
+{% load crispy_forms_tags %}
+
 {% block content %}
 
-<div class="container p-5 m-auto w-50">
+<div class="container p-5 m-auto">
 
     {% for message in messages %}
     <div class="alert alert-danger">
@@ -13,25 +15,12 @@
 
     <form method="POST">
         {% csrf_token %}
-        <div class="form-group">
-            <label for="id_name">Role Name</label>
-            <input required type="text" class="form-control" id="id_name" name="name"
-                value="{% if form.name.value %} {{ form.name.value }} {% endif %}">
-        </div>
-        <div class="form-group">
-            <label for="role_status">Role Status</label>
-            <div class="custom-control custom-switch">
-                <input type="checkbox" {% if form.is_active.value %} checked {% endif %} class="custom-control-input"
-                    id="id_is_active" name="is_active">
-                <label class="custom-control-label" for="id_is_active">Active</label>
-            </div>
-        </div>
+        {{ form|crispy }}
         <a href="{{ request.META.HTTP_REFERER }}">
             <button type="button" class="btn btn-dark">Cancel</button>
         </a>
         <button type="submit" class="btn btn-dark">{{ button_name }}</button>
     </form>
 </div>
-
 
 {% endblock %}

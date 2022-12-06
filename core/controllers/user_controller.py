@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from ..models import Role, User
-from ..forms import RoleForm, RegistrationForm
+from ..forms import RoleForm, RegistrationForm, UserUpdateForm
 
 
 def manageUsers(request):
@@ -17,37 +17,27 @@ def manageUsers(request):
 def registerUser(request):
     context = {}
     context["roles"] = Role.objects.all()
-    context['is_update'] = 0
+    context["form"] = RegistrationForm(request.POST or None)
     context["button_name"] = "Register User"
     if request.method == "POST":
-        new_user = RegistrationForm(request.POST)
-        passsword = request.POST.get("password")
-        confirm_password = request.POST.get("password_confirm")
-        if new_user.is_valid() and passsword == confirm_password:
+        new_user = context["form"]
+        if new_user.is_valid():
+            user_data = request.POST.dict()
             user = User.objects.create_user(
-                first_name=request.POST.get("first_name"),
-                last_name=request.POST.get("last_name"),
-                username=request.POST.get("username"),
-                email=request.POST.get("email"),
-                password=request.POST.get("password"),
-                validity_expiry_date=request.POST.get("validity_expiry_date"),
-                is_active=True if request.POST.get("is_active") == "on" else False,
-                is_staff=True if request.POST.get("is_staff") == "on" else False,
-                is_superuser=True
-                if request.POST.get("is_superuser") == "on"
-                else False,
-                role=Role.objects.get(id=request.POST.get("role")),
+                first_name=user_data.get("first_name"),
+                last_name=user_data.get("last_name"),
+                username=user_data.get("username"),
+                email=user_data.get("email"),
+                password=user_data.get("password"),
+                validity_expiry_date=user_data.get("validity_expiry_date"),
+                is_active=True if user_data.get("is_active") == "on" else False,
+                is_staff=True if user_data.get("is_staff") == "on" else False,
+                is_superuser=True if user_data.get("is_superuser") == "on" else False,
+                role=Role.objects.get(id=user_data.get("role")),
             )
             return redirect("core.manage_users")
         else:
             messages.error(request, message="something went wrong!")
-            context['form'] = new_user
-            return render(
-                request=request,
-                template_name="users/user_registration_form.html",
-                context=context,
-            )
-    context["form"] = RegistrationForm()
     return render(
         request=request,
         template_name="users/user_registration_form.html",
@@ -88,13 +78,10 @@ def logoutUser(request):
 def updateUser(request, pk):
     context = {}
     current_user = User.objects.get(id=pk)
-    context['form'] = RegistrationForm(instance=current_user)
-    context['is_update'] = 1
+    context["form"] = UserUpdateForm(instance=current_user)
     context["roles"] = Role.objects.all()
     context["button_name"] = "Update User"
-
-    if request.method == "POST" and request.POST.get("user_role") != "-":
-
+    if request.method == "POST":
         current_user.first_name = request.POST.get("first_name")
         current_user.last_name = request.POST.get("last_name")
         current_user.username = request.POST.get("username")
@@ -107,7 +94,7 @@ def updateUser(request, pk):
             True if request.POST.get("is_superuser") == "on" else False
         )
         current_user.role = Role.objects.get(id=request.POST.get("role"))
-        current_user.validity_expiry_date = request.POST.get('validity_expiry_date')
+        current_user.validity_expiry_date = request.POST.get("validity_expiry_date")
         current_user.save()
         return redirect("core.manage_users")
     return render(

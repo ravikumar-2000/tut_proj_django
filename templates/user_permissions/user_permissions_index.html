@@ -4,7 +4,7 @@
 
 <div class="container p-5 m-auto">
 
-    <form method="GET" action="{% url 'core.assign_permissions' %}"></form>
+    <form method="GET" action="{% url 'core.assign_permissions' %}">
     {% if perms.core.add_permission %}
     <button type="submit" class="btn btn-dark mb-2">Assign Permissions</button>
     {% else %}

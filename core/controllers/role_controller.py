@@ -16,20 +16,14 @@ def manageRoles(request):
 def createRole(request):
     context = {}
     context["button_name"] = "Create Role"
+    context["form"] = RoleForm(request.POST or None)
     if request.method == "POST":
-        new_role = RoleForm(request.POST)
+        new_role = context["form"]
         if new_role.is_valid():
             new_role.save()
             return redirect("core.manage_roles")
         else:
             messages.error(request, "something went wrong!")
-            context["form"] = new_role
-            return render(
-                request=request,
-                template_name="roles/roles_create_update.html",
-                context=context,
-            )
-    context["form"] = RoleForm()
     return render(
         request=request, template_name="roles/roles_create_update.html", context=context
     )
@@ -37,8 +31,9 @@ def createRole(request):
 
 def updateRole(request, pk):
     context = {}
-    context["button_name"] = "Update Role"
     current_role = Role.objects.get(id=pk)
+    context["button_name"] = "Update Role"
+    context["form"] = RoleForm(instance=current_role)
     if request.method == "POST":
         updated_role = RoleForm(request.POST, instance=current_role)
         if updated_role.is_valid():
@@ -46,13 +41,6 @@ def updateRole(request, pk):
             return redirect("core.manage_roles")
         else:
             messages.error(request, "something went wrong!")
-            return render(
-                request=request,
-                template_name="roles/roles_create_update.html",
-                context=context,
-            )
-    form = RoleForm(instance=current_role)
-    context["form"] = form
     return render(
         request=request, template_name="roles/roles_create_update.html", context=context
     )
