@@ -9,7 +9,8 @@
         <ul class="navbar-nav mr-auto">
             {% if not request.user.is_authenticated %}
             <li class="nav-item">
-                <a class="nav-link" href="{% url 'core.login_user' %}">User Login <span class="sr-only">(current)</span></a>
+                <a class="nav-link" href="{% url 'core.login_user' %}">User Login <span
+                        class="sr-only">(current)</span></a>
             </li>
             {% endif %}
             {% if perms.core.add_user %}
@@ -44,7 +45,8 @@
             </li>
         </ul>
         <form class="form-inline my-2 my-lg-0" method="GET">
-            <input class="form-control mr-sm-2" name="search_query" type="search" placeholder="Search" aria-label="Search">
+            <input class="form-control mr-sm-2" name="search_query" type="search" placeholder="Search"
+                aria-label="Search">
             <button class="btn btn-outline-dark my-2 my-sm-0" type="submit">Search</button>
         </form>
     </div>

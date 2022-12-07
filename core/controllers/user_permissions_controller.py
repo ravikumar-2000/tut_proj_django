@@ -6,12 +6,14 @@ from ..models import User
 
 
 def getPermissions(request):
-    context = {}
+
     users = User.objects.all()
     paginator = Paginator(users, 3)
     page_number = request.GET.get("page")
     page_obj = paginator.get_page(page_number)
-    context["users"] = page_obj
+
+    context = {"title": "Manage Permissions", "users": page_obj}
+
     return render(
         request=request,
         template_name="user_permissions/user_permissions_index.html",
@@ -20,7 +22,9 @@ def getPermissions(request):
 
 
 def assignPermissions(request):
-    context = {}
+    context = {
+        'title': 'Assign Permissions'
+    }
     query_model = request.GET.get("user_permission_model")
     query_user = request.GET.get("user_id")
     if query_user:

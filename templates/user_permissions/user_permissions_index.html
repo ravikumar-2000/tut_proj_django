@@ -1,15 +1,23 @@
 {% extends 'base.html' %}
 
+{% block title %}
+{% if title %}
+{{ title }}
+{% else %}
+Tut App
+{% endif %}
+{% endblock title %}
+
 {% block content %}
 
 <div class="container p-5 m-auto">
 
     <form method="GET" action="{% url 'core.assign_permissions' %}">
-    {% if perms.core.add_permission %}
-    <button type="submit" class="btn btn-dark mb-2">Assign Permissions</button>
-    {% else %}
-    <button disabled type="submit" class="btn btn-dark mb-2">Assign Permissions</button>
-    {% endif %}
+        {% if perms.core.add_permission %}
+        <button type="submit" class="btn btn-dark mb-2">Assign Permissions</button>
+        {% else %}
+        <button disabled type="submit" class="btn btn-dark mb-2">Assign Permissions</button>
+        {% endif %}
     </form>
 
     <table class="table">

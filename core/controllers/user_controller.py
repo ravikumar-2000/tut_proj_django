@@ -6,19 +6,24 @@ from ..forms import RoleForm, RegistrationForm, UserUpdateForm
 
 
 def manageUsers(request):
-    context = {}
-    users = User.objects.all()
-    context["users"] = users
+
+    context = {
+        "title": "Manage Users",
+        "users": User.objects.all(),
+    }
+
     return render(
         request=request, template_name="users/users_index.html", context=context
     )
 
 
 def registerUser(request):
-    context = {}
-    context["roles"] = Role.objects.all()
-    context["form"] = RegistrationForm(request.POST or None)
-    context["button_name"] = "Register User"
+    context = {
+        "title": "Register User",
+        "button_name": "Register User",
+        "form": RegistrationForm(request.POST or None),
+    }
+
     if request.method == "POST":
         new_user = context["form"]
         if new_user.is_valid():
@@ -40,7 +45,7 @@ def registerUser(request):
             messages.error(request, message="something went wrong!")
     return render(
         request=request,
-        template_name="users/user_registration_form.html",
+        template_name="create_update_form.html",
         context=context,
     )
 
@@ -66,7 +71,7 @@ def loginUser(request):
             messages.error(request, message="email address does not exists")
             return redirect("core.login_user")
     return render(
-        request=request, template_name="users/user_login_form.html", context=context
+        request=request, template_name="user_login_form.html", context=context
     )
 
 
@@ -76,11 +81,15 @@ def logoutUser(request):
 
 
 def updateUser(request, pk):
-    context = {}
+
     current_user = User.objects.get(id=pk)
-    context["form"] = UserUpdateForm(instance=current_user)
-    context["roles"] = Role.objects.all()
-    context["button_name"] = "Update User"
+
+    context = {
+        "title": f"Udpate User {current_user.username}",
+        "button_name": "Update User",
+        "form": UserUpdateForm(instance=current_user),
+    }
+
     if request.method == "POST":
         current_user.first_name = request.POST.get("first_name")
         current_user.last_name = request.POST.get("last_name")
@@ -99,7 +108,7 @@ def updateUser(request, pk):
         return redirect("core.manage_users")
     return render(
         request=request,
-        template_name="users/user_registration_form.html",
+        template_name="create_update_form.html",
         context=context,
     )
 
