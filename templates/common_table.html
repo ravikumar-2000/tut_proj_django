@@ -14,12 +14,12 @@ Tut App
 {% block content %}
 
 <div class="container p-2 m-auto">
-    {% include 'form_template.html' %}
+    {% include 'components/form_template.html' %}
 </div>
 
 <div class="container-fluid">
     {% if table %}
-    {% include 'export_data.html' %}
+    {% include 'components/export_data.html' %}
     {% render_table table %}
     {% endif %}
 </div>
