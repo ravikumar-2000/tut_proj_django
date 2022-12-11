@@ -1,0 +1,12 @@
+{% load crispy_forms_tags %}
+
+<form method="{% if not form_method %}POST{% else %}{{ form_method }}{% endif %}">
+    {% if not form_method %}
+    {% csrf_token %}
+    {% endif %}
+    {{ form|crispy }}
+    <a href="{{ request.META.HTTP_REFERER }}">
+        <button type="button" class="btn btn-dark">Cancel</button>
+    </a>
+    <button type="submit" class="btn btn-dark">{{ button_name }}</button>
+</form>

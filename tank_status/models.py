@@ -30,8 +30,36 @@ class PMST(models.Model):
 
 
 class HMST(models.Model):
-    pass
+    t_stamp = models.DateTimeField(null=False, blank=False)
+    hmst_1_status_int = models.IntegerField(null=True, blank=True)
+    hmst_1_status = models.CharField(max_length=50, null=True, blank=True)
+    hmst_1_quantity = models.FloatField(null=True, blank=True)
+    hmst_1_temp = models.FloatField(null=True, blank=True)
+    hmst_2_status_int = models.IntegerField(null=True, blank=True)
+    hmst_2_status = models.CharField(max_length=50, null=True, blank=True)
+    hmst_2_quantity = models.FloatField(null=True, blank=True)
+    hmst_2_temp = models.FloatField(null=True, blank=True)
+    hmst_3_status_int = models.IntegerField(null=True, blank=True)
+    hmst_3_status = models.CharField(max_length=50, null=True, blank=True)
+    hmst_3_quantity = models.FloatField(null=True, blank=True)
+    hmst_3_temp = models.FloatField(null=True, blank=True)
+    hmst_4_status_int = models.IntegerField(null=True, blank=True)
+    hmst_4_status = models.CharField(max_length=50, null=True, blank=True)
+    hmst_4_quantity = models.FloatField(null=True, blank=True)
+    hmst_4_temp = models.FloatField(null=True, blank=True)
 
 
 class RMST(models.Model):
-    pass
+    t_stamp = models.DateTimeField(null=False, blank=False)
+    rmst_1_status_int = models.IntegerField(null=True, blank=True)
+    rmst_1_status = models.CharField(max_length=50, null=True, blank=True)
+    rmst_1_quantity = models.FloatField(null=True, blank=True)
+    rmst_1_temp = models.FloatField(null=True, blank=True)
+    rmst_2_status_int = models.IntegerField(null=True, blank=True)
+    rmst_2_status = models.CharField(max_length=50, null=True, blank=True)
+    rmst_2_quantity = models.FloatField(null=True, blank=True)
+    rmst_2_temp = models.FloatField(null=True, blank=True)
+    rmst_3_status_int = models.IntegerField(null=True, blank=True)
+    rmst_3_status = models.CharField(max_length=50, null=True, blank=True)
+    rmst_3_quantity = models.FloatField(null=True, blank=True)
+    rmst_3_temp = models.FloatField(null=True, blank=True)

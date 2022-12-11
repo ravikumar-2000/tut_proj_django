@@ -1,7 +1,5 @@
 {% extends 'base.html' %}
 
-{% load crispy_forms_tags %}
-
 {% block title %}
 {% if title %}
 {{ title }}
@@ -12,7 +10,7 @@ Tut App
 
 
 {% block content %}
-<div class="container p-5 m-auto">
+<div class="container p-2 m-auto">
 
     {% for message in messages %}
     <div class="alert alert-danger">
@@ -21,14 +19,7 @@ Tut App
     </div>
     {% endfor %}
 
-    <form method="POST">
-        {% csrf_token %}
-        {{ form|crispy }}
-        <a href="{{ request.META.HTTP_REFERER }}">
-            <button type="button" class="btn btn-dark">Cancel</button>
-        </a>
-        <button type="submit" class="btn btn-dark">{{ button_name }}</button>
-    </form>
+    {% include 'form_template.html' %}
 
 </div>
 {% endblock content %}

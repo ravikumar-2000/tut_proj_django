@@ -10,7 +10,7 @@ Tut App
 
 {% block content %}
 
-<div class="container p-5 m-auto">
+<div class="container p-2 m-auto">
     <form method="GET" action="{% url 'core.register_user' %}">
         {% if perms.core.add_user %}
         <button type="submit" class="btn btn-dark mb-2">Create New User</button>

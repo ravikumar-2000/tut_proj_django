@@ -1,0 +1,14 @@
+{% load export_url from django_tables2 %}
+
+<div class="dropdown">
+    <button class="btn btn-dark dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown"
+        aria-haspopup="true" aria-expanded="false">
+        Export Data
+    </button>
+    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+        <a class="dropdown-item" href="{% export_url 'csv' %}">CSV</a>
+        <a class="dropdown-item" href="{% export_url 'json' %}">JSON</a>
+        <a class="dropdown-item" href="{% export_url 'tsv' %}">TSV</a>
+        <a class="dropdown-item" href="{% export_url 'pdf' %}">PDF</a>
+    </div>
+</div>

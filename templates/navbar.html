@@ -38,9 +38,9 @@
                     Tank Status Reports
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <a class="dropdown-item" href="{% url 'core.manage_roles' %}">PMST</a>
-                    <a class="dropdown-item" href="{% url 'core.manage_users' %}">RMST</a>
-                    <a class="dropdown-item" href="{% url 'core.get_permissions' %}">HMST</a>
+                    <a class="dropdown-item" href="{% url 'tank_status.get_pmst' %}">PMST</a>
+                    <a class="dropdown-item" href="{% url 'tank_status.get_rmst' %}">RMST</a>
+                    <a class="dropdown-item" href="{% url 'tank_status.get_hmst' %}">HMST</a>
                 </div>
             </li>
         </ul>
