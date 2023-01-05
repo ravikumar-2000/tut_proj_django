@@ -4,6 +4,7 @@
     {% if not form_method %}
     {% csrf_token %}
     {% endif %}
+
     {{ form|crispy }}
     <a href="{{ request.META.HTTP_REFERER }}">
         <button type="button" class="btn btn-dark">Cancel</button>
