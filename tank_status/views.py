@@ -41,8 +41,8 @@ def getHMST(request):
 
     if request.GET.get("date_time_from"):
         hmsts = HMST.objects.filter(
-            Q(t_stamp__gte=request.GET.get("date_time_from"))
-            & Q(t_stamp__lte=request.GET.get("date_time_to")),
+            t_stamp__gte=request.GET.get("date_time_from"),
+            t_stamp__lte=request.GET.get("date_time_to"),
         )
         if len(hmsts) > 0:
             table = HmstTable(hmsts)
@@ -120,8 +120,8 @@ def getRMST(request):
 
     if request.GET.get("date_time_from"):
         rmsts = RMST.objects.filter(
-            Q(t_stamp__gte=request.GET.get("date_time_from"))
-            & Q(t_stamp__lte=request.GET.get("date_time_to")),
+            t_stamp__gte=request.GET.get("date_time_from"),
+            t_stamp__lte=request.GET.get("date_time_to"),
         )
         if len(rmsts) > 0:
             table = RmstTable(rmsts)
