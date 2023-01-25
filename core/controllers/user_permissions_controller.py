@@ -22,9 +22,7 @@ def getPermissions(request):
 
 
 def assignPermissions(request):
-    context = {
-        'title': 'Assign Permissions'
-    }
+    context = {"title": "Assign Permissions"}
     query_model = request.GET.get("user_permission_model")
     query_user = request.GET.get("user_id")
     if query_user:
