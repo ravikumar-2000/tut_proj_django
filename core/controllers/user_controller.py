@@ -45,7 +45,7 @@ def registerUser(request):
             messages.error(request, message="something went wrong!")
     return render(
         request=request,
-        template_name="create_update_form.html",
+        template_name="components/create_update_form.html",
         context=context,
     )
 
@@ -71,7 +71,7 @@ def loginUser(request):
             messages.error(request, message="email address does not exists")
             return redirect("core.login_user")
     return render(
-        request=request, template_name="user_login_form.html", context=context
+        request=request, template_name="users/user_login_form.html", context=context
     )
 
 
@@ -108,7 +108,7 @@ def updateUser(request, pk):
         return redirect("core.manage_users")
     return render(
         request=request,
-        template_name="create_update_form.html",
+        template_name="components/create_update_form.html",
         context=context,
     )
 

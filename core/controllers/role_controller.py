@@ -11,9 +11,7 @@ def manageRoles(request):
         "roles": Role.objects.all(),
     }
 
-    return render(
-        request=request, template_name="roles/roles_index.html", context=context
-    )
+    return render(request=request, template_name="roles/roles_index.html", context=context)
 
 
 def createRole(request):
@@ -32,7 +30,9 @@ def createRole(request):
         else:
             messages.error(request, "something went wrong!")
     return render(
-        request=request, template_name="create_update_form.html", context=context
+        request=request,
+        template_name="components/create_update_form.html",
+        context=context,
     )
 
 
@@ -54,7 +54,9 @@ def updateRole(request, pk):
         else:
             messages.error(request, "something went wrong!")
     return render(
-        request=request, template_name="create_update_form.html", context=context
+        request=request,
+        template_name="components/create_update_form.html",
+        context=context,
     )
 
 

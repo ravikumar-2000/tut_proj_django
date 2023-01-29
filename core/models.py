@@ -26,7 +26,7 @@ class User(AbstractUser, BaseModel):
     role = models.ForeignKey(Role, on_delete=models.CASCADE, null=True)
 
     def __str__(self):
-        return self.username
+        return f"{self.username} | {self.role.name}"
 
     class Meta(AbstractUser.Meta):
         swappable = "AUTH_USER_MODEL"

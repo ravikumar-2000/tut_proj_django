@@ -12,8 +12,7 @@
                 <a class="nav-link" href="{% url 'core.login_user' %}">User Login <span
                         class="sr-only">(current)</span></a>
             </li>
-            {% endif %}
-            {% if perms.core.add_user %}
+            {% endif %} {% if perms.core.add_user %}
             <li class="nav-item">
                 <a class="nav-link" href="{% url 'core.register_user' %}">User Registration</a>
             </li>
@@ -26,7 +25,8 @@
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                     <a class="dropdown-item" href="{% url 'core.manage_roles' %}">Manage Roles</a>
                     <a class="dropdown-item" href="{% url 'core.manage_users' %}">Manage Users</a>
-                    <a class="dropdown-item" href="{% url 'core.get_permissions' %}">Manage User Permissions</a>
+                    <a class="dropdown-item" href="{% url 'core.manage_permissions' %}">Manage User Permissions</a>
+                    <!-- <a class="dropdown-item" href="{% url 'core.manage_organisations' %}">Manage Organisations</a> -->
                     <div class="dropdown-divider"></div>
                     <a class="dropdown-item" href="#">No Action</a>
                 </div>
@@ -46,8 +46,10 @@
         </ul>
         <form class="form-inline my-2 my-lg-0" method="GET">
             <input class="form-control mr-sm-2" name="search_query" type="search" placeholder="Search"
-                aria-label="Search">
-            <button class="btn btn-outline-dark my-2 my-sm-0" type="submit">Search</button>
+                aria-label="Search" />
+            <button class="btn btn-outline-dark my-2 my-sm-0" type="submit">
+                Search
+            </button>
         </form>
     </div>
 </nav>

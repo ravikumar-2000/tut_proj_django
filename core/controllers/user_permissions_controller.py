@@ -5,8 +5,7 @@ from django.core.paginator import Paginator
 from ..models import User
 
 
-def getPermissions(request):
-
+def managePermissions(request):
     users = User.objects.all()
     paginator = Paginator(users, 3)
     page_number = request.GET.get("page")
@@ -45,7 +44,7 @@ def assignPermissions(request):
             else:
                 if active:
                     current_user.user_permissions.add(permission)
-        return redirect("core.get_permissions")
+        return redirect("core.manage_permissions")
     context["users"] = User.objects.all()
     context["content_types"] = ContentType.objects.all()
     return render(
@@ -65,4 +64,4 @@ def deletePermissions(request, pk):
     permissions = Permission.objects.filter(user=current_user).all()
     for permission in permissions:
         current_user.user_permissions.remove(permission)
-    return redirect("core.get_permissions")
+    return redirect("core.manage_permissions")

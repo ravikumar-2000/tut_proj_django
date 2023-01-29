@@ -77,8 +77,8 @@ def deleteRole(request, pk):
 
 @login_required
 @permission_required("auth.view_permission", raise_exception=True)
-def getPermissions(request):
-    return user_permissions_controller.getPermissions(request)
+def managePermissions(request):
+    return user_permissions_controller.managePermissions(request)
 
 
 @login_required

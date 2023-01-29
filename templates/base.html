@@ -11,31 +11,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css"
         integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous" />
 
-    <title>
-        {% block title %}
-        {% endblock title %}
-    </title>
-
-    <style>
-        body {
-            background-color: whitesmoke;
-        }
-
-        #main-name {
-            font-weight: bolder;
-            font-family: Verdana, Geneva, Tahoma, sans-serif;
-            color: whitesmoke;
-            background-color: black;
-            width: fit-content;
-            padding: 5px;
-            margin: 3px;
-        }
-
-        .pagination li {
-            padding: 5px;
-            font-weight: bolder;
-        }
-    </style>
+    <title>{% block title %} {% endblock title %}</title>
 </head>
 
 <body>
@@ -61,12 +37,7 @@
             <a class="dropdown-item" href="{% url 'core.login_user' %}">Login Session</a>
         </div>
     </div>
-    {% endif %}
-
-    {% include 'navbar.html' %}
-
-    {% block content %}
-    {% endblock %}
+    {% endif %} {% include 'navbar.html' %} {% block content %} {% endblock %}
 
     <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
         integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
